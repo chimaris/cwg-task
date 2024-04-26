@@ -9,6 +9,7 @@ import Pagination from "../components/Pagination";
 import SelectInput from "../components/SelectInput";
 import DownloadCSV from "../components/DownloadCsv";
 import UserDetails from "../components/UserDetails";
+import { useUser } from "../store/userContext";
 
 function Main() {
 	const [isChecked, setIsChecked] = useState(false);
@@ -16,7 +17,9 @@ function Main() {
 	const [selectedFilter, setSelectedFilter] = useState<string>("all");
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const { data, isLoading, isError } = useQuery("users", getUsers, { enabled: false });
+	const { showDetails } = useUser();
+
+	const { data, isLoading, isError } = useQuery("users", getUsers, { staleTime: 1000 * 60 * 30, cacheTime: 1000 * 60 * 30 });
 
 	// Filter Logic
 	const filteredItems = () => {
@@ -89,7 +92,7 @@ function Main() {
 				</div>
 
 				{/* Display Users */}
-				{/* {totalItems > 0 && (
+				{totalItems > 0 && !showDetails && (
 					<div className="flex flex-col gap-3 my-4">
 						{filteredItems()
 							.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -97,9 +100,9 @@ function Main() {
 								<UserCard user={user} key={index} showCountry={isChecked} />
 							))}
 					</div>
-				)} */}
+				)}
 
-				<UserDetails />
+				{showDetails && <UserDetails />}
 
 				{/* Pagination */}
 				<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">

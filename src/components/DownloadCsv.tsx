@@ -27,7 +27,7 @@ const DownloadCSV = ({ data }: DownloadCSVProps) => {
 	};
 
 	// Function to convert data to CSV format
-	const convertToCSV = (data) => {
+	const convertToCSV = (data: DataItem[]) => {
 		// Get the headers
 		const headers = Object.keys(data[0]);
 

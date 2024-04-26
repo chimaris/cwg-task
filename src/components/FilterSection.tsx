@@ -1,10 +1,14 @@
 import { useState } from "react";
 import FilterButton from "./FilterButton";
 
-function FilterSection({ onFilterChange }) {
+interface FilterSectionProps {
+	onFilterChange: (filterOption: string) => void;
+}
+
+function FilterSection({ onFilterChange }: FilterSectionProps) {
 	const [selectedFilter, setSelectedFilter] = useState("all");
 
-	const handleFilterChange = (filterOption) => {
+	const handleFilterChange = (filterOption: string) => {
 		setSelectedFilter(filterOption);
 		onFilterChange(filterOption);
 	};

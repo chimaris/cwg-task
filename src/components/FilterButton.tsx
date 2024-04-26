@@ -1,7 +1,15 @@
+import { MouseEventHandler } from "react";
 import { FaUsers } from "react-icons/fa6";
 import { FaFemale, FaMale } from "react-icons/fa";
 
-const FilterButton = ({ isActive, onClick, name, bgColor }) => {
+interface FilterButtonProps {
+	isActive: boolean;
+	onClick: MouseEventHandler<HTMLDivElement>;
+	name: string;
+	bgColor: string;
+}
+
+const FilterButton = ({ isActive, onClick, name, bgColor }: FilterButtonProps) => {
 	const buttonStyle = {
 		backgroundColor: bgColor,
 	};
