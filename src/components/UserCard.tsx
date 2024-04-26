@@ -28,6 +28,11 @@ export interface IUser {
 		thumbnail: string;
 	};
 	gender: string;
+	cell: string;
+	registered: {
+		age: number;
+		date: string;
+	};
 }
 
 interface UserCardProps {
