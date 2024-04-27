@@ -52,12 +52,12 @@ const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
 	return (
 		<div className="flex flex-col md:flex-row justify-center items-center gap-5 rounded shadow-2xl bg-white p-4 w-100">
 			<span className="bg-[#4F6FB8] rounded-full w-20 h-20 text-white font-bold text-xs flex items-center justify-center overflow-hidden border-4 border-[#75D6D1]">
-				<img className="w-100 h-100" src={picture.medium} alt="User" />
+				<img className="w-100 h-100" src={picture?.medium} alt="User" />
 			</span>
 			<div className="md:flex-1 justify-center md:justify-start text-center md:text-left">
-				<h1 className="text-[20px] font-bold text-[#000000DE]">{`${name.first} ${name.last}`}</h1>
+				<h1 className="text-[20px] font-bold text-[#000000DE]">{`${name?.first} ${name?.last}`}</h1>
 				<span className="text-[15px] font-thin italic text-[#000000DE] mt-3">
-					{location.street.number} {location.street.name}, {location.city}, {showCountry && location.country}
+					{location?.street.number} {location?.street.name}, {location?.city}, {showCountry && location?.country}
 				</span>
 
 				<div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-3 md:gap-0">

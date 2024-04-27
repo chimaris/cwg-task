@@ -30,9 +30,9 @@ export default function SelectInput() {
 						<Transition show={open} as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
 							<Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 								{countries &&
-									countries.map((country: { country: string; iso2: string }) => (
+									countries.map((country: { country: string; iso3: string }, index: number) => (
 										<Listbox.Option
-											key={country.iso2}
+											key={index}
 											className={({ active }) =>
 												classNames(active ? "bg-[#50BBB5] text-white" : "text-gray-900", "relative cursor-default select-none py-2 pl-3 pr-9")
 											}
