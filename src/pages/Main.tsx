@@ -21,6 +21,7 @@ function Main() {
 
 	const { data, isLoading, isError } = useQuery("users", getUsers, { staleTime: 1000 * 60 * 30, cacheTime: 1000 * 60 * 30 });
 
+	console.log(data);
 	// Filter Logic
 	const filteredItems = () => {
 		let filteredData = data || [];
@@ -60,7 +61,7 @@ function Main() {
 	return (
 		<div className="flex flex-col lg:flex-row items-center justify-center gap-4 md:m-5">
 			<div className="p-10 w-100 md:w-[45%] text-white flex flex-col gap-4 text-center md:text-left">
-				<h1 className="text-[30px] font-thin">
+				<h1 data-testid="name" className="text-[30px] font-thin">
 					Hello, <span className="font-bold">Stella Maris</span>
 				</h1>
 				<p className="font-thin text-[12px]">Welcome to your dashboard, kindly sort through the user base</p>
@@ -102,6 +103,7 @@ function Main() {
 					</div>
 				)}
 
+				{/* Display Users Details */}
 				{showDetails && <UserDetails />}
 
 				{/* Pagination */}

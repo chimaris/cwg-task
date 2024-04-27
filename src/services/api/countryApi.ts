@@ -4,7 +4,6 @@ import axios from "axios";
 export const getCountries = async () => {
 	try {
 		const response = await axios.get("https://countriesnow.space/api/v0.1/countries");
-		console.log("Countries ", response.data.data);
 
 		return response.data.data;
 	} catch (error) {
