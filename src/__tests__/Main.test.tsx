@@ -5,121 +5,88 @@ import { UserProvider } from "../store/userContext";
 import { IUser } from "../components/UserCard";
 import Main from "../pages/Main";
 
+const maleFn = "Oliver",
+	maleLn = "Li",
+	femaleFn = "Jenny";
+// femaleLn = "Garrett";
+
+const mockUsers: IUser[] = [
+	{
+		id: {
+			name: "ID",
+			value: "1",
+		},
+		name: {
+			first: maleFn,
+			last: maleLn,
+			title: "Mr",
+		},
+		email: "john.doe@example.com",
+		phone: "123-456-7890",
+		location: {
+			city: "City",
+			country: "Country",
+			street: {
+				name: "Street Name",
+				number: 123,
+			},
+		},
+		picture: {
+			large: "large-image-url",
+			medium: "medium-image-url",
+			thumbnail: "thumbnail-image-url",
+		},
+		gender: "male",
+		cell: "098-765-4321",
+		registered: {
+			age: 30,
+			date: "2022-04-25",
+		},
+	},
+];
 // Mock the useQuery hook
 jest.mock("react-query", () => ({
 	...jest.requireActual("react-query"),
 	useQuery: jest.fn(),
 }));
 
-describe("Testing the Main component", () => {
-	const maleFn = "Ranveer",
-		maleLn = "Salian",
-		femaleFn = "Harper",
-		femaleLn = "Simpson";
-	const mockUsers: IUser[] = [
-		{
-			id: {
-				name: "ID",
-				value: "1",
-			},
-			name: {
-				first: maleFn,
-				last: maleLn,
-				title: "Mr",
-			},
-			email: "john.doe@example.com",
-			phone: "123-456-7890",
-			location: {
-				city: "City",
-				country: "Country",
-				street: {
-					name: "Street Name",
-					number: 123,
-				},
-			},
-			picture: {
-				large: "large-image-url",
-				medium: "medium-image-url",
-				thumbnail: "thumbnail-image-url",
-			},
-			gender: "male",
-			cell: "098-765-4321",
-			registered: {
-				age: 30,
-				date: "2022-04-25",
-			},
-		},
-		{
-			id: {
-				name: "ID",
-				value: "1",
-			},
-			name: {
-				first: femaleFn,
-				last: femaleLn,
-				title: "Mrs",
-			},
-			email: "john.doe@example.com",
-			phone: "123-456-7890",
-			location: {
-				city: "City",
-				country: "Country",
-				street: {
-					name: "Street Name",
-					number: 123,
-				},
-			},
-			picture: {
-				large: "large-image-url",
-				medium: "medium-image-url",
-				thumbnail: "thumbnail-image-url",
-			},
-			gender: "female",
-			cell: "098-765-4321",
-			registered: {
-				age: 30,
-				date: "2022-04-25",
-			},
-		},
-	];
-	beforeEach(() => {
-		// Mock the implementation of useQuery
-		(useQuery as jest.Mock).mockReturnValue({
-			data: mockUsers,
-			isLoading: false,
-			isError: false,
-		});
+beforeEach(() => {
+	// Mock the implementation of useQuery
+	(useQuery as jest.Mock).mockReturnValue({
+		data: mockUsers,
+		isLoading: false,
+		isError: false,
 	});
+});
+
+// Setup function
+const setup = () => {
+	return render(
+		<UserProvider>
+			<Main />
+		</UserProvider>
+	);
+};
+
+describe("Testing the Main component", () => {
 	it("demo", () => {
 		expect(true).toBe(true);
 	});
 
 	it("renders the component without crashing", () => {
 		// renders the component
-		render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+		setup();
 	});
 
 	it("Check if the welcome name is correct", () => {
-		const { getByTestId } = render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+		const { getByTestId } = setup();
 
 		const name = getByTestId("name").textContent;
 		expect(name).toBe("Hello, Stella Maris");
 	});
 
 	it("How many data is retrieved", async () => {
-		render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+		setup();
 
 		// Expect that the useQuery hook has been called with the correct arguments
 		expect(useQuery).toHaveBeenCalledWith("users", expect.any(Function), {
@@ -145,93 +112,8 @@ describe("Testing the Main component", () => {
 });
 
 describe("Testing the Core Features of the page", () => {
-	const maleFn = "Ranveer",
-		maleLn = "Salian",
-		femaleFn = "Harper",
-		femaleLn = "Simpson";
-
-	const mockUsers: IUser[] = [
-		{
-			id: {
-				name: "ID",
-				value: "1",
-			},
-			name: {
-				first: maleFn,
-				last: maleLn,
-				title: "Mr",
-			},
-			email: "john.doe@example.com",
-			phone: "123-456-7890",
-			location: {
-				city: "City",
-				country: "Country",
-				street: {
-					name: "Street Name",
-					number: 123,
-				},
-			},
-			picture: {
-				large: "large-image-url",
-				medium: "medium-image-url",
-				thumbnail: "thumbnail-image-url",
-			},
-			gender: "male",
-			cell: "098-765-4321",
-			registered: {
-				age: 30,
-				date: "2022-04-25",
-			},
-		},
-		{
-			id: {
-				name: "ID",
-				value: "1",
-			},
-			name: {
-				first: femaleFn,
-				last: femaleLn,
-				title: "Mrs",
-			},
-			email: "john.doe@example.com",
-			phone: "123-456-7890",
-			location: {
-				city: "City",
-				country: "Country",
-				street: {
-					name: "Street Name",
-					number: 123,
-				},
-			},
-			picture: {
-				large: "large-image-url",
-				medium: "medium-image-url",
-				thumbnail: "thumbnail-image-url",
-			},
-			gender: "female",
-			cell: "098-765-4321",
-			registered: {
-				age: 30,
-				date: "2022-04-25",
-			},
-		},
-	];
-
-	beforeEach(() => {
-		// Mock the implementation of useQuery
-		(useQuery as jest.Mock).mockReturnValue({
-			data: mockUsers,
-			isLoading: false,
-			isError: false,
-		});
-	});
-
 	it("Displays user cards with correct names", async () => {
-		const { getByText } = render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+		const { getByText } = setup();
 
 		// Wait for user cards to be rendered
 		await waitFor(() => {
@@ -242,11 +124,7 @@ describe("Testing the Core Features of the page", () => {
 	});
 
 	it("Allows searching for users by name", async () => {
-		const { getAllByPlaceholderText, getByText } = render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+		const { getAllByPlaceholderText, getByText } = setup();
 
 		const searchInputs = getAllByPlaceholderText("Find a user");
 
@@ -261,12 +139,8 @@ describe("Testing the Core Features of the page", () => {
 		});
 	});
 
-	it("Allows filtering users by gender", async () => {
-		const { getByText, getByTestId, queryByText } = render(
-			<UserProvider>
-				<Main />
-			</UserProvider>
-		);
+	it("Allows filtering users by male gender", async () => {
+		const { getByText, getByTestId, queryByText } = setup();
 
 		// Click on the filter option for male users.
 		fireEvent.click(getByTestId("Male users"));
@@ -279,4 +153,23 @@ describe("Testing the Core Features of the page", () => {
 
 		// console.log("Document HTML after filter:", document.body.innerHTML);
 	});
+
+	// it("Allows filtering users by female gender", async () => {
+	// 	const { getByText, getByTestId, queryByText } = render(
+	// 		<UserProvider>
+	// 			<Main />
+	// 		</UserProvider>
+	// 	);
+
+	// 	// Click on the filter option for male users.
+	// 	fireEvent.click(getByTestId("Female users"));
+
+	// 	// Wait for user cards to be rendered
+	// 	await waitFor(() => {
+	// 		expect(getByText(`${femaleFn} ${femaleLn}`)).toBeInTheDocument();
+	// 		expect(queryByText(`${maleFn}`)).not.toBeInTheDocument();
+	// 	});
+
+	// 	// console.log("Document HTML after filter:", document.body.innerHTML);
+	// });
 });
