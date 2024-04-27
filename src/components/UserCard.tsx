@@ -33,6 +33,10 @@ export interface IUser {
 		age: number;
 		date: string;
 	};
+	dob: {
+		date: string;
+		age: number;
+	};
 }
 
 interface UserCardProps {
@@ -41,7 +45,7 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
-	const { name, email, phone, location, picture } = user;
+	const { id, name, email, phone, location, picture } = user;
 	const { setCurrentUser, setShowDetails } = useUser();
 
 	const handleClick = () => {
@@ -57,7 +61,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
 			<div className="md:flex-1 justify-center md:justify-start text-center md:text-left">
 				<h1 className="text-[20px] font-bold text-[#000000DE]">{`${name?.first} ${name?.last}`}</h1>
 				<span className="text-[15px] font-thin italic text-[#000000DE] mt-3">
-					{location?.street.number} {location?.street.name}, {location?.city}, {showCountry && location?.country}
+					{location?.street.number} {location?.street.name}, {location?.city}, <span>{showCountry && location?.country}</span>
 				</span>
 
 				<div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-3 md:gap-0">
@@ -70,6 +74,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
 						<span className="opacity-[0.6] text-xs">{phone}</span>
 					</span>
 					<button
+						data-testid={`user-card-${id.value}`}
 						onClick={handleClick}
 						className="bg-[#75D6D1] text-white h-[50px] w-[50px] font-bold rounded-2xl flex flex-col justify-center items-center hover:bg-[#50BBB5] shadow-2xl transition-all ease-in-out">
 						<MdArrowForward />

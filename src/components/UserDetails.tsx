@@ -23,11 +23,11 @@ const UserDetails = () => {
 						<div className="flex flex-col justify-center md:justify-start md:text-left gap-3">
 							<h1 className="text-[23px] font-bold text-[#000000DE]">
 								{`${currentUser?.name.title} ${currentUser?.name.first} ${currentUser?.name.last}`}{" "}
-								<span className="text-[#30344A] font-thin ml-1">{currentUser?.registered.age}</span>
+								<span className="text-[#30344A] font-thin ml-1">{currentUser?.dob.age}</span>
 							</h1>
 							<span className="text-[15px] text-[#000000DE]">
 								{currentUser?.location.street.number} {currentUser?.location.street.name}, {currentUser?.location.city},{" "}
-								{currentUser?.location.country}
+								<span>{currentUser?.location.country}</span>
 							</span>
 
 							<span className="flex items-center gap-1 text-[#262a41] rounded-3xl bg-[#D9D9DF] w-fit py-2 px-4 ">
