@@ -19,11 +19,10 @@ function Main() {
 
 	const { showDetails } = useUser();
 
-	const { data, isLoading, isError } = useQuery("users", getUsers, { staleTime: 1000 * 60 * 30, cacheTime: 1000 * 60 * 30 });
+	const { data, isLoading, isError } = useQuery("users", getUsers, { staleTime: 1000 * 60 * 60 * 1, cacheTime: 1000 * 60 * 60 * 4 });
 
-	console.log(data);
 	// Filter Logic
-	const filteredItems = () => {
+	const filteredUsers = () => {
 		let filteredData = data || [];
 		if (searchQuery) {
 			filteredData = filteredData.filter((item: IUser) => item?.name?.first.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -34,8 +33,8 @@ function Main() {
 		return filteredData;
 	};
 
-	const totalItems = filteredItems()?.length || 0;
-	const itemsPerPage = 3;
+	const totalUsers = filteredUsers()?.length || 0;
+	const usersPerPage = 3;
 
 	const onPageChange = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
@@ -79,6 +78,7 @@ function Main() {
 							<div className="flex items-center">
 								<label className="relative flex justify-between items-center group p-2 text-xl">
 									<input
+										data-testid="toggle-country"
 										type="checkbox"
 										checked={isChecked}
 										onChange={handleToggle}
@@ -93,10 +93,10 @@ function Main() {
 				</div>
 
 				{/* Display Users */}
-				{totalItems > 0 && !showDetails && (
+				{totalUsers > 0 && !showDetails && (
 					<div className="flex flex-col gap-3 my-4">
-						{filteredItems()
-							.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+						{filteredUsers()
+							.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
 							.map((user: IUser, index: number) => (
 								<UserCard user={user} key={index} showCountry={isChecked} />
 							))}
@@ -108,8 +108,8 @@ function Main() {
 
 				{/* Pagination */}
 				<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">
-					<DownloadCSV data={filteredItems()} />
-					<Pagination totalItems={totalItems} itemsPerPage={itemsPerPage} currentPage={currentPage} onPageChange={onPageChange} />
+					<DownloadCSV data={filteredUsers()} />
+					<Pagination totalUsers={totalUsers} usersPerPage={usersPerPage} currentPage={currentPage} onPageChange={onPageChange} />
 				</div>
 			</div>
 		</div>

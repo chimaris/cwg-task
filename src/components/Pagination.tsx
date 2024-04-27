@@ -2,16 +2,16 @@ import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 interface PaginationProps {
-	totalItems: number;
-	itemsPerPage: number;
+	totalUsers: number;
+	usersPerPage: number;
 	currentPage: number;
 	onPageChange: (pageNumber: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => {
-	const totalPages = Math.ceil(totalItems / itemsPerPage);
-	const startIndex = (currentPage - 1) * itemsPerPage + 1;
-	const endIndex = Math.min(currentPage * itemsPerPage, totalItems);
+const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, currentPage, onPageChange }) => {
+	const totalPages = Math.ceil(totalUsers / usersPerPage);
+	const startIndex = (currentPage - 1) * usersPerPage + 1;
+	const endIndex = Math.min(currentPage * usersPerPage, totalUsers);
 
 	const handlePageChange = (pageNumber: number) => {
 		onPageChange(pageNumber);
@@ -20,7 +20,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalItems, itemsPerPage, curre
 	return (
 		<div className="flex items-center gap-5">
 			<div className="text-[#7B7B7B]">
-				{startIndex} - {endIndex} of {totalItems}
+				{startIndex} - {endIndex} of {totalUsers}
 			</div>
 			<div className="flex space-x-2">
 				<button
