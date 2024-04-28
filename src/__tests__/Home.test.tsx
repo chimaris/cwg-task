@@ -115,7 +115,7 @@ describe("Is Home component rendered successfully", () => {
 		const data = await queryFn();
 
 		// Check the length and properties of the data array
-		expect(data).toHaveLength(9);
+		expect(data).toHaveLength(100);
 		expect(data[0]).toHaveProperty("gender");
 		expect(data[0].location).toHaveProperty("country");
 

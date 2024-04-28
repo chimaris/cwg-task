@@ -1,6 +1,6 @@
 # FifthLab Task
 
-The task is to evaluate my ability proficiency in frontend development using best practices, it includes features like user search, filter by gender, download users and pagination.
+The task is to evaluate my ability in frontend development using best practices, it includes features like user search, filter by gender, download users and pagination.
 
 Open the live link here: [stellamaris-user-info.netlify.app](https://stellamaris-user-info.netlify.app/), I am open to feedbacks.
 
