@@ -1,25 +1,34 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { getCountries } from "../services/api/countryApi";
 import { useQuery } from "react-query";
+import { useUser } from "../store/userContext";
 
 function classNames(...classes: (string | undefined)[]) {
 	return classes.filter(Boolean).join(" ");
 }
 
 const SelectInput = () => {
-	const [selected, setSelected] = useState<{ country: string } | null>(null);
 	const { data: countries } = useQuery("countries", getCountries, { staleTime: 1000 * 60 * 60 * 2, cacheTime: 1000 * 60 * 60 * 24 * 5 });
+	const { selectedCountry, setSelectedCountry } = useUser();
+
+	const handleSelectionChange = (selected: { country: string }) => {
+		if (selected.country === selectedCountry?.country) {
+			setSelectedCountry(null);
+		} else {
+			setSelectedCountry(selected);
+		}
+	};
 
 	return (
-		<Listbox value={selected} onChange={setSelected}>
+		<Listbox value={selectedCountry} onChange={handleSelectionChange}>
 			{({ open }) => (
 				<>
 					<div className="relative mt-2">
-						<Listbox.Button className="relative cursor-default rounded-full h-[50px] md:h-[58px] w-56 md:w-full bg-[#E7E7EE] py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6">
+						<Listbox.Button className="relative cursor-default rounded-full h-[50px] md:h-[58px] w-40 md:w-200 bg-[#E7E7EE] py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6">
 							<span className="flex items-center">
-								<span className="ml-3 block truncate">{selected ? selected.country : "Select a country"}</span>
+								<span className="ml-3 block truncate">{selectedCountry ? selectedCountry?.country : "Select a country"}</span>
 							</span>
 							<span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
 								<ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />

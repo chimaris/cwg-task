@@ -1,16 +1,12 @@
-import { useState } from "react";
 import FilterButton from "./FilterButton";
+import { useUser } from "../store/userContext";
 
-interface FilterSectionProps {
-	onFilterChange: (filterOption: string) => void;
-}
-
-function FilterSection({ onFilterChange }: FilterSectionProps) {
-	const [selectedFilter, setSelectedFilter] = useState("all");
+const FilterByGender = () => {
+	const { selectedFilter, setSelectedFilter, setCurrentPage } = useUser();
 
 	const handleFilterChange = (filterOption: string) => {
 		setSelectedFilter(filterOption);
-		onFilterChange(filterOption);
+		setCurrentPage(1);
 	};
 
 	return (
@@ -23,6 +19,6 @@ function FilterSection({ onFilterChange }: FilterSectionProps) {
 			</div>
 		</div>
 	);
-}
+};
 
-export default FilterSection;
+export default FilterByGender;

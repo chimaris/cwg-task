@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { useQuery } from "react-query";
 import { UserProvider } from "../store/userContext";
 import Home from "../pages/Home";
-import { IUser } from "../types";
+import { IUser } from "../helpers/types";
 
 // Declaration for using the real data
 // const mockUsers: IUser[] = [];

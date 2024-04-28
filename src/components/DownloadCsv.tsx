@@ -1,11 +1,8 @@
 import { MdOutlineCloudDownload } from "react-icons/md";
-
-interface IDataItem {
-	[key: string]: string | number | boolean | object | null;
-}
+import { IUser } from "../helpers/types";
 
 interface DownloadCSVProps {
-	data: IDataItem[];
+	data: IUser[];
 	disabled: boolean;
 }
 
@@ -17,7 +14,7 @@ const DownloadCSV = ({ data, disabled }: DownloadCSVProps) => {
 		// Create a temporary anchor element
 		const link = document.createElement("a");
 		link.setAttribute("href", csvContent);
-		link.setAttribute("download", "export.csv");
+		link.setAttribute("download", "users.csv");
 		document.body.appendChild(link);
 
 		// Trigger the click event on the anchor element
@@ -27,19 +24,18 @@ const DownloadCSV = ({ data, disabled }: DownloadCSVProps) => {
 		document.body.removeChild(link);
 	};
 
-	// Function to convert data to CSV format
-	const convertToCSV = (data: IDataItem[]) => {
-		const headers = Object.keys(data[0]);
+	const convertToCSV = (data: IUser[]) => {
+		const headers = Object.keys(data[0]) as (keyof IUser)[];
 
 		// Convert data to CSV rows
 		const rows = data.map((obj) => {
 			return headers
 				.map((header) => {
-					// Check if the value is an object
-					if (typeof obj[header] === "object" && obj[header] !== null) {
-						return JSON.stringify(obj[header]);
+					const value = obj[header];
+					if (typeof value === "object" && value !== null) {
+						return JSON.stringify(value);
 					} else {
-						return obj[header];
+						return value;
 					}
 				})
 				.join(",");

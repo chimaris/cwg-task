@@ -3,21 +3,23 @@ import SearchInput from "./SearchInput";
 import SelectInput from "./SelectInput";
 
 interface FilterBySearchProps {
-	handleToggle: () => void;
-	handleSearchChange: (query: string) => void;
 	text: string;
 }
 
-function FilterBySearch({ handleToggle, handleSearchChange, text }: FilterBySearchProps) {
-	const { searchQuery, isChecked } = useUser();
+function FilterBySearch({ text }: FilterBySearchProps) {
+	const { showCountry, setShowCountry } = useUser();
+
+	const handleToggle = () => {
+		setShowCountry(!showCountry);
+	};
 
 	return (
 		<div>
 			<h2 className="text-[#30344A] text-[22px] font-bold text-center md:text-left">{text}</h2>
 			<div>
-				<span className="text-[#000000DE] text-xs text-center md:text-left mb-20">Filter by</span>
-				<div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
-					<SearchInput value={searchQuery} onChange={handleSearchChange} style="rounded-full bg-[#E7E7EE]" />
+				<span className="text-[#000000DE] text-xs text-center md:text-left">Filter by</span>
+				<div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 mt-3">
+					<SearchInput style="rounded-full bg-[#E7E7EE]" />
 					<div className="flex items-center">
 						<SelectInput />
 						<div className="flex items-center">
@@ -25,7 +27,7 @@ function FilterBySearch({ handleToggle, handleSearchChange, text }: FilterBySear
 								<input
 									data-testid="toggle-country"
 									type="checkbox"
-									checked={isChecked}
+									checked={showCountry}
 									onChange={handleToggle}
 									className="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
 								/>

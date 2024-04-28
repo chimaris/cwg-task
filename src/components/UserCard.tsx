@@ -1,16 +1,15 @@
 import React from "react";
 import { MdOutlineMailOutline, MdPhoneInTalk, MdArrowForward } from "react-icons/md";
 import { useUser } from "../store/userContext";
-import { IUser } from "../types";
+import { IUser } from "../helpers/types";
 
 interface UserCardProps {
 	user: IUser;
-	showCountry: boolean;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
 	const { id, name, email, phone, location, picture } = user;
-	const { setCurrentUser, setShowDetails } = useUser();
+	const { setCurrentUser, setShowDetails, showCountry } = useUser();
 
 	const handleClick = () => {
 		setCurrentUser(user);
