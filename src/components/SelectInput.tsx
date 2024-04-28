@@ -18,7 +18,7 @@ export default function SelectInput() {
 			{({ open }) => (
 				<Fragment>
 					<div className="relative mt-2">
-						<Listbox.Button className="relative cursor-default rounded-full h-14 w-56 md:w-full bg-[#E7E7EE] py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6">
+						<Listbox.Button className="relative cursor-default rounded-full h-[50px] md:h-[58px] w-56 md:w-full bg-[#E7E7EE] py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6">
 							<span className="flex items-center">
 								<span className="ml-3 block truncate">{selected ? selected.country : "Select a country"}</span>
 							</span>

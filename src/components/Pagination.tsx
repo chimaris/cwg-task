@@ -6,9 +6,10 @@ interface PaginationProps {
 	usersPerPage: number;
 	currentPage: number;
 	onPageChange: (pageNumber: number) => void;
+	disabled: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, currentPage, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, currentPage, onPageChange, disabled }) => {
 	const totalPages = Math.ceil(totalUsers / usersPerPage);
 	const startIndex = (currentPage - 1) * usersPerPage + 1;
 	const endIndex = Math.min(currentPage * usersPerPage, totalUsers);
@@ -24,15 +25,17 @@ const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, curre
 			</div>
 			<div className="flex space-x-2">
 				<button
-					className={`px-3 py-3 rounded ${currentPage === 1 ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"}`}
+					className={`px-3 py-3 rounded disabled:opacity-50 ${currentPage === 1 ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"}`}
 					onClick={() => handlePageChange(currentPage - 1)}
-					disabled={currentPage === 1}>
+					disabled={currentPage === 1 || disabled}>
 					<FaChevronLeft />
 				</button>
 				<button
-					className={`px-3 py-3 rounded ${currentPage === totalPages ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"}`}
+					className={`px-3 py-3 rounded disabled:opacity-50 ${
+						currentPage === totalPages ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"
+					}`}
 					onClick={() => handlePageChange(currentPage + 1)}
-					disabled={currentPage === totalPages}>
+					disabled={currentPage === totalPages || disabled}>
 					<FaChevronRight />
 				</button>
 			</div>

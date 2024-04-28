@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { useQuery } from "react-query";
 import { UserProvider } from "../store/userContext";
 import { IUser } from "../components/UserCard";
-import Main from "../pages/Main";
+import Home from "../pages/Home";
 
 // Declaration for using the real data
 // const mockUsers: IUser[] = [];
@@ -73,30 +73,30 @@ beforeEach(() => {
 	});
 });
 
-// renderMain function
-const renderMain = () => {
+// renderHome component function
+const renderHome = () => {
 	return render(
 		<UserProvider>
-			<Main />
+			<Home />
 		</UserProvider>
 	);
 };
 
-describe("Is Main component rendered successfully", () => {
+describe("Is Home component rendered successfully", () => {
 	it("renders the component without crashing", () => {
 		// renders the component
-		renderMain();
+		renderHome();
 	});
 
 	it("Check if the welcome name is correct", () => {
-		const { getByTestId } = renderMain();
+		const { getByTestId } = renderHome();
 
 		const name = getByTestId("name").textContent;
 		expect(name).toBe("Hello, Stella Maris");
 	});
 
 	it("How many data is retrieved", async () => {
-		renderMain();
+		renderHome();
 
 		// Expect that the useQuery hook has been called with the correct arguments
 		expect(useQuery).toHaveBeenCalledWith("users", expect.any(Function), {
@@ -146,7 +146,7 @@ describe("Testing if all users displayed successfully", () => {
 			isError: true,
 		});
 
-		const { getByText } = renderMain();
+		const { getByText } = renderHome();
 
 		// Wait for error message to be displayed
 		await waitFor(() => {
@@ -161,7 +161,7 @@ describe("Testing if all users displayed successfully", () => {
 			isError: false,
 		});
 
-		const { getByText } = renderMain();
+		const { getByText } = renderHome();
 
 		// Wait for error message to be displayed
 		await waitFor(() => {
@@ -170,7 +170,7 @@ describe("Testing if all users displayed successfully", () => {
 	});
 
 	it("Displays user cards with correct names", async () => {
-		const { getByText } = renderMain();
+		const { getByText } = renderHome();
 
 		// Wait for user cards to be rendered
 		await waitFor(() => {
@@ -181,7 +181,7 @@ describe("Testing if all users displayed successfully", () => {
 	});
 
 	it("Displays user details when clicking on a user card", async () => {
-		const { getByText, getByTestId } = renderMain();
+		const { getByText, getByTestId } = renderHome();
 
 		// Wait for user cards to be rendered
 		await waitFor(() => {
@@ -203,7 +203,7 @@ describe("Testing if all users displayed successfully", () => {
 
 describe("Testing the Core Features of the page", () => {
 	it("Allows searching for users by name", async () => {
-		const { getAllByPlaceholderText, getByText } = renderMain();
+		const { getAllByPlaceholderText, getByText, queryByText } = renderHome();
 
 		const searchInputs = getAllByPlaceholderText("Find a user");
 
@@ -215,12 +215,12 @@ describe("Testing the Core Features of the page", () => {
 
 		await waitFor(() => {
 			expect(getByText(`${maleFn} ${maleLn}`)).toBeInTheDocument();
-			expect("random names").not.toBeInTheDocument();
+			expect(queryByText("random names")).not.toBeInTheDocument();
 		});
 	});
 
 	it("Allows filtering users by male gender", async () => {
-		const { getByText, getByTestId, queryByText } = renderMain();
+		const { getByText, getByTestId, queryByText } = renderHome();
 
 		// Click on the filter option for male users.
 		fireEvent.click(getByTestId("Male users"));
@@ -235,7 +235,7 @@ describe("Testing the Core Features of the page", () => {
 	});
 
 	it("Allows filtering users by female gender", async () => {
-		const { getByText, getByTestId, queryByText } = renderMain();
+		const { getByText, getByTestId, queryByText } = renderHome();
 
 		// Click on the filter option for female users.
 		fireEvent.click(getByTestId("Female users"));
@@ -248,7 +248,7 @@ describe("Testing the Core Features of the page", () => {
 	});
 
 	it("Allows filtering to display all users", async () => {
-		const { getByText, getByTestId, queryByText } = renderMain();
+		const { getByText, getByTestId, queryByText } = renderHome();
 
 		// Click on the filter option for all users.
 		fireEvent.click(getByTestId("All users"));
@@ -262,7 +262,7 @@ describe("Testing the Core Features of the page", () => {
 	});
 
 	it("Toggles country information on user cards when checkbox is clicked", async () => {
-		const { getByTestId, queryByText, getByText } = renderMain();
+		const { getByTestId, queryByText, getByText } = renderHome();
 
 		// Check if country information is initially hidden
 		expect(queryByText(`${mockUsers[0].location.country}`)).not.toBeInTheDocument();

@@ -10,8 +10,9 @@ import SelectInput from "../components/SelectInput";
 import DownloadCSV from "../components/DownloadCsv";
 import UserDetails from "../components/UserDetails";
 import { useUser } from "../store/userContext";
+import { motion } from "framer-motion";
 
-function Main() {
+function Home() {
 	const [isChecked, setIsChecked] = useState(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [selectedFilter, setSelectedFilter] = useState<string>("all");
@@ -70,7 +71,7 @@ function Main() {
 			<div className="bg-[#F7F7FE] p-8 w-100 md:w-[55%] rounded-3xl">
 				<h2 className="text-[#30344A] text-[22px] font-bold text-center md:text-left">All Users</h2>
 				<div>
-					<span className="text-[#000000DE] text-xs text-center md:text-left">Filter by</span>
+					<span className="text-[#000000DE] text-xs text-center md:text-left mb-20">Filter by</span>
 					<div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
 						<SearchInput value={searchQuery} onChange={handleSearchChange} style="rounded-full bg-[#E7E7EE]" />
 						<div className="flex items-center">
@@ -91,9 +92,8 @@ function Main() {
 						</div>
 					</div>
 				</div>
-
 				{/* Display Users */}
-				{totalUsers > 0 && !showDetails && (
+				{/* {totalUsers > 0 && !showDetails && (
 					<div className="flex flex-col gap-3 my-4">
 						{filteredUsers()
 							.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
@@ -101,19 +101,46 @@ function Main() {
 								<UserCard user={user} key={index} showCountry={isChecked} />
 							))}
 					</div>
-				)}
-
+				)} */}
 				{/* Display Users Details */}
-				{showDetails && <UserDetails />}
+				{/* {showDetails && <UserDetails />} */}
+				<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.5 }}>
+					{/* Display Users */}
+					{totalUsers > 0 && !showDetails && (
+						<div className="flex flex-col gap-3 my-4">
+							{filteredUsers()
+								.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
+								.map((user: IUser, index: number) => (
+									<UserCard user={user} key={index} showCountry={isChecked} />
+								))}
+						</div>
+					)}
 
-				{/* Pagination */}
+					{/* Display Users Details */}
+					{showDetails && (
+						<motion.div
+							initial={{ opacity: 0, x: -100 }}
+							animate={{ opacity: 1, x: 0 }}
+							exit={{ opacity: 0, x: -100 }}
+							transition={{ duration: 0.5 }}>
+							<UserDetails />
+						</motion.div>
+					)}
+				</motion.div>
+				;{/* Pagination */}
 				<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">
-					<DownloadCSV data={filteredUsers()} />
-					<Pagination totalUsers={totalUsers} usersPerPage={usersPerPage} currentPage={currentPage} onPageChange={onPageChange} />
+					<DownloadCSV data={filteredUsers()} disabled={showDetails} />
+					<Pagination
+						totalUsers={totalUsers}
+						usersPerPage={usersPerPage}
+						currentPage={currentPage}
+						onPageChange={onPageChange}
+						disabled={showDetails}
+					/>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default Main;
+export default Home;
