@@ -1,11 +1,11 @@
 import { MdOutlineCloudDownload } from "react-icons/md";
 
-interface DataItem {
+interface IDataItem {
 	[key: string]: string | number | boolean | object | null;
 }
 
 interface DownloadCSVProps {
-	data: DataItem[];
+	data: IDataItem[];
 	disabled: boolean;
 }
 
@@ -28,8 +28,7 @@ const DownloadCSV = ({ data, disabled }: DownloadCSVProps) => {
 	};
 
 	// Function to convert data to CSV format
-	const convertToCSV = (data: DataItem[]) => {
-		// Get the headers
+	const convertToCSV = (data: IDataItem[]) => {
 		const headers = Object.keys(data[0]);
 
 		// Convert data to CSV rows
@@ -38,10 +37,8 @@ const DownloadCSV = ({ data, disabled }: DownloadCSVProps) => {
 				.map((header) => {
 					// Check if the value is an object
 					if (typeof obj[header] === "object" && obj[header] !== null) {
-						// Convert the object to a string
 						return JSON.stringify(obj[header]);
 					} else {
-						// Convert non-object values to string
 						return obj[header];
 					}
 				})

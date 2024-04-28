@@ -8,15 +8,14 @@ function classNames(...classes: (string | undefined)[]) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function SelectInput() {
+const SelectInput = () => {
 	const [selected, setSelected] = useState<{ country: string } | null>(null);
-
-	const { data: countries } = useQuery("countries", getCountries, { staleTime: 1000 * 60 * 30, cacheTime: 1000 * 60 * 30 });
+	const { data: countries } = useQuery("countries", getCountries, { staleTime: 1000 * 60 * 60 * 2, cacheTime: 1000 * 60 * 60 * 24 * 5 });
 
 	return (
 		<Listbox value={selected} onChange={setSelected}>
 			{({ open }) => (
-				<Fragment>
+				<>
 					<div className="relative mt-2">
 						<Listbox.Button className="relative cursor-default rounded-full h-[50px] md:h-[58px] w-56 md:w-full bg-[#E7E7EE] py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 sm:text-sm sm:leading-6">
 							<span className="flex items-center">
@@ -34,11 +33,11 @@ export default function SelectInput() {
 										<Listbox.Option
 											key={index}
 											className={({ active }) =>
-												classNames(active ? "bg-[#50BBB5] text-white" : "text-gray-900", "relative cursor-default select-none py-2 pl-3 pr-9")
+												classNames(active ? "bg-[#E2EEF8] text-[#297DD4]" : "text-gray-900", "relative cursor-default select-none py-2 pl-3 pr-9")
 											}
 											value={country}>
 											{({ selected, active }) => (
-												<Fragment>
+												<>
 													<div className="flex items-center">
 														<span className={classNames(selected ? "font-semibold" : "font-normal", "ml-3 block truncate")}>{country.country}</span>
 													</div>
@@ -48,15 +47,17 @@ export default function SelectInput() {
 															<CheckIcon className="h-5 w-5" aria-hidden="true" />
 														</span>
 													) : null}
-												</Fragment>
+												</>
 											)}
 										</Listbox.Option>
 									))}
 							</Listbox.Options>
 						</Transition>
 					</div>
-				</Fragment>
+				</>
 			)}
 		</Listbox>
 	);
-}
+};
+
+export default SelectInput;

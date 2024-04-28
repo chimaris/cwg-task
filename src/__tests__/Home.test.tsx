@@ -2,8 +2,8 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { useQuery } from "react-query";
 import { UserProvider } from "../store/userContext";
-import { IUser } from "../components/UserCard";
 import Home from "../pages/Home";
+import { IUser } from "../types";
 
 // Declaration for using the real data
 // const mockUsers: IUser[] = [];
@@ -121,7 +121,7 @@ describe("Is Home component rendered successfully", () => {
 		expect(data[0]).toHaveProperty("gender");
 		expect(data[0].location).toHaveProperty("country");
 
-		// *** CODE BELOW CAN ENABLE IF I WANT TO TEST WITH REAL DATA (Data coming from API) *** //
+		// *** CODE BELOW CAN ENABLE IF I WANT TO TEST WITH REAL DATA (i.e Data coming from API) *** //
 
 		// // Concatenate the real data to mockUsers and reassign the values
 		// mockUsers.push(...data);

@@ -1,25 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-
-import { getUsers } from "../services/api/userApi";
-import FilterSection from "../components/FilterSection";
-import SearchInput from "../components/SearchInput";
-import UserCard, { IUser } from "../components/UserCard";
-import Pagination from "../components/Pagination";
-import SelectInput from "../components/SelectInput";
-import DownloadCSV from "../components/DownloadCsv";
-import UserDetails from "../components/UserDetails";
-import { useUser } from "../store/userContext";
 import { motion } from "framer-motion";
+import { useUser } from "../store/userContext";
+import { getUsers } from "../services/api/userApi";
+import { FilterBySearch, SearchInput, UserCard, FilterSection, Pagination, DownloadCSV, UserDetails } from "../components";
+import { IUser } from "../types";
 
 function Home() {
-	const [isChecked, setIsChecked] = useState(false);
-	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [selectedFilter, setSelectedFilter] = useState<string>("all");
 	const [currentPage, setCurrentPage] = useState(1);
-
-	const { showDetails } = useUser();
-
+	const { showDetails, searchQuery, setSearchQuery, isChecked, setIsChecked } = useUser();
 	const { data, isLoading, isError } = useQuery("users", getUsers, { staleTime: 1000 * 60 * 60 * 1, cacheTime: 1000 * 60 * 60 * 4 });
 
 	// Filter Logic
@@ -68,76 +58,51 @@ function Home() {
 				<SearchInput value={searchQuery} onChange={handleSearchChange} style="rounded-full bg-[#7D7F8C]" />
 				<FilterSection onFilterChange={handleFilterChange} />
 			</div>
-			<div className="bg-[#F7F7FE] p-8 w-100 md:w-[55%] rounded-3xl">
-				<h2 className="text-[#30344A] text-[22px] font-bold text-center md:text-left">All Users</h2>
-				<div>
-					<span className="text-[#000000DE] text-xs text-center md:text-left mb-20">Filter by</span>
-					<div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
-						<SearchInput value={searchQuery} onChange={handleSearchChange} style="rounded-full bg-[#E7E7EE]" />
-						<div className="flex items-center">
-							<SelectInput />
-							<div className="flex items-center">
-								<label className="relative flex justify-between items-center group p-2 text-xl">
-									<input
-										data-testid="toggle-country"
-										type="checkbox"
-										checked={isChecked}
-										onChange={handleToggle}
-										className="absolute left-1/2 -translate-x-1/2 w-full h-full peer appearance-none rounded-md"
-									/>
-									<span className="w-16 h-10 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-[#50BBB5] after:w-8 after:h-8 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-6 group-hover:after:translate-x-1"></span>
-								</label>
-								<span>Show Country</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				{/* Display Users */}
-				{/* {totalUsers > 0 && !showDetails && (
-					<div className="flex flex-col gap-3 my-4">
-						{filteredUsers()
-							.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
-							.map((user: IUser, index: number) => (
-								<UserCard user={user} key={index} showCountry={isChecked} />
-							))}
-					</div>
-				)} */}
-				{/* Display Users Details */}
-				{/* {showDetails && <UserDetails />} */}
-				<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.5 }}>
-					{/* Display Users */}
-					{totalUsers > 0 && !showDetails && (
-						<div className="flex flex-col gap-3 my-4">
-							{filteredUsers()
-								.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
-								.map((user: IUser, index: number) => (
-									<UserCard user={user} key={index} showCountry={isChecked} />
-								))}
-						</div>
-					)}
 
-					{/* Display Users Details */}
-					{showDetails && (
-						<motion.div
-							initial={{ opacity: 0, x: -100 }}
-							animate={{ opacity: 1, x: 0 }}
-							exit={{ opacity: 0, x: -100 }}
-							transition={{ duration: 0.5 }}>
-							<UserDetails />
-						</motion.div>
-					)}
-				</motion.div>
-				;{/* Pagination */}
-				<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">
-					<DownloadCSV data={filteredUsers()} disabled={showDetails} />
-					<Pagination
-						totalUsers={totalUsers}
-						usersPerPage={usersPerPage}
-						currentPage={currentPage}
-						onPageChange={onPageChange}
-						disabled={showDetails}
-					/>
-				</div>
+			{/* Display Users */}
+			<div className="bg-[#F7F7FE] p-8 w-100 md:w-[55%] rounded-3xl">
+				{!showDetails && (
+					<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 100 }} transition={{ duration: 1 }}>
+						<FilterBySearch handleToggle={handleToggle} handleSearchChange={handleSearchChange} text="All Users" />
+						<div className="flex flex-col gap-3 my-4">
+							{totalUsers > 0 &&
+								filteredUsers()
+									.slice((currentPage - 1) * usersPerPage, currentPage * usersPerPage)
+									.map((user: IUser, index: number) => <UserCard user={user} key={index} showCountry={isChecked} />)}
+						</div>
+						{/* Pagination */}
+						<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">
+							<DownloadCSV data={filteredUsers()} disabled={showDetails} />
+							<Pagination
+								totalUsers={totalUsers}
+								usersPerPage={usersPerPage}
+								currentPage={currentPage}
+								onPageChange={onPageChange}
+								disabled={showDetails}
+							/>
+						</div>
+					</motion.div>
+				)}
+
+				{/* Display Users Details */}
+				{showDetails && (
+					<motion.div initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 1 }}>
+						<FilterBySearch handleToggle={handleToggle} handleSearchChange={handleSearchChange} text="User List" />
+						<UserDetails />
+
+						{/* Pagination and Download Sections */}
+						<div className="flex flex-col md:flex-row justify-between items-center mt-5 gap-5 md:gap-0">
+							<DownloadCSV data={filteredUsers()} disabled={showDetails} />
+							<Pagination
+								totalUsers={totalUsers}
+								usersPerPage={usersPerPage}
+								currentPage={currentPage}
+								onPageChange={onPageChange}
+								disabled={showDetails}
+							/>
+						</div>
+					</motion.div>
+				)}
 			</div>
 		</div>
 	);
