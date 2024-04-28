@@ -7,7 +7,7 @@ const UserDetails = () => {
 	const { currentUser, setShowDetails } = useUser();
 
 	return (
-		<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+		<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.5 }}>
 			<div className="p-4 w-100 bg-transparent mt-5 mb-10">
 				<button
 					className="flex items-center justify-between my-5 text-4xl gap-3 px-4 rounded-md hover:bg-[#E6E6EC] cursor-pointer"

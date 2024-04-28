@@ -6,9 +6,10 @@ interface DataItem {
 
 interface DownloadCSVProps {
 	data: DataItem[];
+	disabled: boolean;
 }
 
-const DownloadCSV = ({ data }: DownloadCSVProps) => {
+const DownloadCSV = ({ data, disabled }: DownloadCSVProps) => {
 	const handleExport = () => {
 		// Prepare CSV content
 		const csvContent = "data:text/csv;charset=utf-8," + encodeURIComponent(convertToCSV(data));
@@ -52,8 +53,9 @@ const DownloadCSV = ({ data }: DownloadCSVProps) => {
 
 	return (
 		<button
+			disabled={disabled}
 			onClick={handleExport}
-			className="bg-[#7946c1] text-white rounded-full flex items-center gap-1 px-4 py-3 hover:bg-[#8046c1] shadow-2xl transition-all ease-in-out">
+			className="bg-[#7946c1] text-white rounded-full flex items-center gap-1 px-4 py-3 hover:bg-[#8046c1] shadow-2xl transition-all ease-in-out disabled:opacity-50">
 			<MdOutlineCloudDownload className="text-[24px]" />
 			<span className="text-[14px]">Download Results</span>
 		</button>

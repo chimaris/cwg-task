@@ -54,7 +54,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, showCountry }) => {
 	};
 
 	return (
-		<div className="flex flex-col md:flex-row justify-center items-center gap-5 rounded shadow-2xl bg-white p-4 w-100">
+		<div className="flex flex-col md:flex-row justify-center items-center gap-5 shadow-2xl bg-white p-4 w-100 rounded-[10px]">
 			<span className="bg-[#4F6FB8] rounded-full w-20 h-20 text-white font-bold text-xs flex items-center justify-center overflow-hidden border-4 border-[#75D6D1]">
 				<img className="w-100 h-100" src={picture?.medium} alt="User" />
 			</span>
