@@ -95,9 +95,7 @@ describe("Is Home component rendered successfully", () => {
 		expect(name).toBe("Hello, Stella Maris");
 	});
 
-	it("How many data is retrieved", async () => {
-		renderHome();
-
+	it("Verifying API data retrieval", async () => {
 		// Expect that the useQuery hook has been called with the correct arguments
 		expect(useQuery).toHaveBeenCalledWith("users", expect.any(Function), {
 			staleTime: 1000 * 60 * 60 * 1,
@@ -150,7 +148,7 @@ describe("Testing if all users displayed successfully", () => {
 
 		// Wait for error message to be displayed
 		await waitFor(() => {
-			expect(getByText("Something happened")).toBeInTheDocument();
+			expect(getByText("Unable to retrieve user data")).toBeInTheDocument();
 		});
 	});
 
@@ -161,11 +159,11 @@ describe("Testing if all users displayed successfully", () => {
 			isError: false,
 		});
 
-		const { getByText } = renderHome();
+		const { getByTestId } = renderHome();
 
 		// Wait for error message to be displayed
 		await waitFor(() => {
-			expect(getByText("Loading...")).toBeInTheDocument();
+			expect(getByTestId("loading-indicator")).toBeInTheDocument();
 		});
 	});
 

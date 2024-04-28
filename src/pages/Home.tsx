@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import { useUser } from "../store/userContext";
 import { getUsers } from "../services/api/userApi";
-import { FilterBySearch, SearchInput, UserCard, Pagination, DownloadCSV, UserDetails, FilterByGender } from "../components";
+import { FilterBySearch, SearchInput, UserCard, Pagination, DownloadCSV, UserDetails, FilterByGender, Loading, ErrorCard } from "../components";
 import { filteredUsers } from "../helpers/utils";
 import { IUser } from "../helpers/types";
 
@@ -14,8 +14,8 @@ function Home() {
 	const totalUsers = filteredData.length || 0;
 	const usersPerPage = 3;
 
-	if (isLoading) return <div>Loading...</div>;
-	if (isError) return <div>Something happened</div>;
+	if (isLoading) return <Loading />;
+	if (isError) return <ErrorCard />;
 
 	return (
 		<section className="grid grid-cols-1 lg:grid-cols-11 items-center justify-between md:gap-10 md:my-5 md:mx-10">
@@ -33,6 +33,7 @@ function Home() {
 				{!showDetails && (
 					<motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 100 }} transition={{ duration: 0.5 }}>
 						<FilterBySearch text="All Users" />
+
 						<div className="flex flex-col gap-3 my-4">
 							{totalUsers > 0 &&
 								filteredData
@@ -46,7 +47,6 @@ function Home() {
 						</div>
 					</motion.div>
 				)}
-
 				{/* Display Users Details */}
 				{showDetails && (
 					<motion.div initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.5 }}>
