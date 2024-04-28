@@ -2,7 +2,7 @@
 
 The task is to evaluate my ability proficiency in frontend development using best practices, it includes features like user search, filter by gender, download users and pagination.
 
-This is a [Live Link](https://stellamaris-user-info.netlify.app/), go through it and give your feedback.
+Open the live link here: [stellamaris-user-info.netlify.app](https://stellamaris-user-info.netlify.app/), go through it and give your feedback.
 
 ## Prerequisites
 
@@ -13,15 +13,16 @@ Before you begin, ensure you have met the following requirements:
 ## Installation
 
 1. Clone the Repository and change direcory to the root
-2. Install Packages `yarn` in root dir
-
-## `yarn run dev`
+2. Install Packages `yarn`in root dir
+3. Run `yarn run dev`
 
 Runs the application in dev mode, enable hot restart and allows for quick modification
 
 Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
-## To run unit testing
+## Unit Testing with Jest
+
+Use the command below to test for some core features
 
 `yarn run test`
 

@@ -1,21 +1,21 @@
 import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useUser } from "../store/userContext";
 
 interface PaginationProps {
 	totalUsers: number;
 	usersPerPage: number;
-	currentPage: number;
-	onPageChange: (pageNumber: number) => void;
-	disabled: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, currentPage, onPageChange, disabled }) => {
+const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage }) => {
+	const { showDetails, currentPage, setCurrentPage } = useUser();
+
 	const totalPages = Math.ceil(totalUsers / usersPerPage);
 	const startIndex = (currentPage - 1) * usersPerPage + 1;
 	const endIndex = Math.min(currentPage * usersPerPage, totalUsers);
 
 	const handlePageChange = (pageNumber: number) => {
-		onPageChange(pageNumber);
+		setCurrentPage(pageNumber);
 	};
 
 	return (
@@ -27,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, curre
 				<button
 					className={`px-3 py-3 rounded disabled:opacity-50 ${currentPage === 1 ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"}`}
 					onClick={() => handlePageChange(currentPage - 1)}
-					disabled={currentPage === 1 || disabled}>
+					disabled={currentPage === 1 || showDetails}>
 					<FaChevronLeft />
 				</button>
 				<button
@@ -35,7 +35,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalUsers, usersPerPage, curre
 						currentPage === totalPages ? "bg-gray-200 cursor-not-allowed" : "bg-[#23273C] text-white"
 					}`}
 					onClick={() => handlePageChange(currentPage + 1)}
-					disabled={currentPage === totalPages || disabled}>
+					disabled={currentPage === totalPages || showDetails}>
 					<FaChevronRight />
 				</button>
 			</div>
